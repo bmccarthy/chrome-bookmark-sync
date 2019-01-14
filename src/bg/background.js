@@ -4,15 +4,44 @@
 //     "sample_setting": "This is how you use Store.js to remember values"
 // });
 
+chrome.bookmarks.onCreated.addListener(function callback(id, bookmark) {
+  console.log('created', bookmark);
+});
 
-//example of using a message handler from the inject scripts
-chrome.extension.onMessage.addListener(
-  function (request, sender, sendResponse) {
-    chrome.pageAction.show(sender.tab.id);
-    sendResponse();
-  });
+chrome.bookmarks.onRemoved.addListener(function callback(id, bookmark) {
+  console.log('removed', id, bookmark);
+});
 
-chrome.bookmarks.onCreated.addListener(function callback(a, b) {
-  console.log(a, b);
+chrome.bookmarks.onChanged.addListener(function callback(id, bookmark) {
+  console.log('changed', id, bookmark);
+  /*** Title or URL Changed */
+  const opts = {
+    title: "",
+    url: ""
+  }
+});
+
+chrome.bookmarks.onMoved.addListener(function callback(id, bookmark) {
+  console.log('moved', id, bookmark);
+  /*** Happens when user moves node from one spot to another spot ***/
+  const opts = {
+    index: 1,
+    oldIndex: 0,
+    oldParentId: "2",
+    parentId: "2"
+  };
 
 });
+
+chrome.bookmarks.onChildrenReordered.addListener(function callback(id, bookmark) {
+  console.log('reordered', id, bookmark);
+});
+
+
+const dataformat = {
+  bookmarks: {
+    'folder1': [
+      { 'folder2': [] }
+    ]
+  }
+};
